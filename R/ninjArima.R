@@ -8,11 +8,15 @@ ninjArima <- function(ts){
   #To ignore the warnings during usage
   options(warn=-1)
   options("getSymbols.warning4.0"=FALSE)
+
+  # Loading Libraries
+
+
   # Identifying Difference
   k = 0
   tser = ts
   repeat{
-    test <- adf.test(tser)
+    test <- tseries::adf.test(tser)
     if(round(test$p.value,2) < 0.05){
       break()
     } else {
@@ -52,18 +56,18 @@ ninjArima <- function(ts){
   train <- window(ts, start = start, end = (start + inTrain - 1), frequency = freq)
   test <- window(ts, start = (start + inTrain), end = end, frequency = freq)
 
-  modelAR <- Arima(ts, order = c(lagpacf,k,0))
-  modelMA <- Arima(ts, order = c(0,k,lagacf))
-  modelARMA <- Arima(ts, order = c(lagpacf,k,lagacf))
+  modelAR <- forecast::Arima(ts, order = c(lagpacf,k,0))
+  modelMA <- forecast::Arima(ts, order = c(0,k,lagacf))
+  modelARMA <- forecast::Arima(ts, order = c(lagpacf,k,lagacf))
 
   fut <- length(ts) - inTrain
-  predAR <- forecast(modelAR, h = fut)
-  predMA <- forecast(modelMA, h = fut)
-  predARMA <- forecast(modelARMA, h = fut)
+  predAR <- forecast::forecast(modelAR, h = fut)
+  predMA <- forecast::forecast(modelMA, h = fut)
+  predARMA <- forecast::forecast(modelARMA, h = fut)
 
-  rmseAR <- rmse(c(test), predAR$mean)
-  rmseMA <- rmse(c(test), predMA$mean)
-  rmseARMA <- rmse(c(test), predARMA$mean)
+  rmseAR <- Metrics::rmse(c(test), predAR$mean)
+  rmseMA <- Metrics::rmse(c(test), predMA$mean)
+  rmseARMA <- Metrics::rmse(c(test), predARMA$mean)
 
   models <- c("AR" = rmseAR, "MA" = rmseMA,"ARMA" = rmseARMA)
   best <- names(models[which.min(models)])
