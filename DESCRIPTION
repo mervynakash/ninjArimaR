@@ -1,6 +1,6 @@
 Package: ninjArimaR
 Type: Package
-Title: Predicting the 
+Title: Finding optimal order values for the Arima model.
 Version: 0.1.0
 Author: Mervyn Akash (codemonger)
 Maintainer: codemonger <mervyn.akash10@gmail.com>
