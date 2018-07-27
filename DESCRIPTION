@@ -1,0 +1,13 @@
+Package: ninjArimaR
+Type: Package
+Title: Predicting the 
+Version: 0.1.0
+Author: Mervyn Akash (codemonger)
+Maintainer: codemonger <mervyn.akash10@gmail.com>
+Description: To get the optimal value of Lag wrt 
+              Autocorrelation, Difference and Partial Autocorrelation for the Arima 
+              model. 
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Imports: forecast, tseries, Metrics
