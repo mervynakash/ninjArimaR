@@ -1,7 +1,7 @@
 Package: ninjArimaR
 Type: Package
-Title: Finding optimal order values for the Arima model.
-Version: 0.1.0
+Title: Returns the optimal AR order, degree of difference and MA order for Arima Model for Time Series Analysis.
+Version: 0.1.1
 Author: Mervyn Akash (codemonger)
 Maintainer: codemonger <mervyn.akash10@gmail.com>
 Description: To get the optimal value of Lag wrt 
