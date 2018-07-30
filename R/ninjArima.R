@@ -39,7 +39,12 @@ ninjArima <- function(ts){
   thresh = c(1,-1)*1.96/sqrt(length(ts))
 
   lagacf <- lagfun(acf_df,thresh)
-  lagacf = lagacf - 1
+  if(lagacf == 0){
+    lagacf = 0
+  } else {
+    lagacf = lagacf - 1
+  }
+
 
   # Identifying Partial Autocorrelation lags or AR
   pacf_df <- pacf_fun(ts,k)
@@ -53,7 +58,7 @@ ninjArima <- function(ts){
   end = attributes(ts)$tsp[2]
   freq = attributes(ts)$tsp[3]
   inTrain <- trunc(75/100*(length(ts)/freq))
-  train <- window(ts, start = start, end = (start + inTrain - 1), frequency = freq)
+  train <- window(ts, start = start, end = (start + inTrain), frequency = freq)
   test <- window(ts, start = (start + inTrain), end = end, frequency = freq)
 
   modelAR <- forecast::Arima(ts, order = c(lagpacf,k,0))
