@@ -23,7 +23,7 @@ print(pred_arima)
 ```
 
 # Conclusion
-There will be a bugs and errors and I would be highly honored if you developers would mail me at ```mervyn.akash10@gmail.com```. Any type of feedback and criticism is appreciated and hope to improve my algorithm for the benefits of R community. 
+There will be a lot of bugs and errors and I would be highly honored if you developers would mail me at ```mervyn.akash10@gmail.com```. Any type of feedback and criticism is appreciated and hope to improve my algorithm for the benefits of R community. 
 
 Thank You.
 Happy Coding!!!!
