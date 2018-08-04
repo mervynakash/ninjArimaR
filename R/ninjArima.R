@@ -25,6 +25,7 @@ ninjArima <- function(ts){
     }
   }
 
+  thresh = c(1,-1)*1.96/sqrt(length(ts))
 
   # Identifying Autocaorrelation lags or MA
   repeat{
@@ -36,9 +37,17 @@ ninjArima <- function(ts){
     }
   }
 
-  thresh = c(1,-1)*1.96/sqrt(length(ts))
+  repeat{
+    acf_df <- acf_fun(ts,k)
+    if(nrow(acf_df[which(acf_df$Val > thresh),]) > 7){
+      k = k + 1
+    } else {
+      break
+    }
+  }
 
-  lagacf <- lagfun(acf_df,thresh)
+
+  lagacf <- lagfun(acf_df,thresh,1)
   if(lagacf == 0){
     lagacf = 0
   } else {
@@ -49,7 +58,7 @@ ninjArima <- function(ts){
   # Identifying Partial Autocorrelation lags or AR
   pacf_df <- pacf_fun(ts,k)
 
-  lagpacf <- lagfun(pacf_df, thresh)
+  lagpacf <- lagfun(pacf_df, thresh,2)
 
   # pkq <- c(lagpacf,k,lagacf)
   # return(pkq)
@@ -125,7 +134,7 @@ acf_fun <- function(tser,k){
 }
 
 
-lagfun <- function(df,thresh){
+lagfun <- function(df,thresh,k){
 
   #To ignore the warnings during usage
   options(warn=-1)
@@ -133,6 +142,8 @@ lagfun <- function(df,thresh){
 
   flag = 0
   final = 0
+  mean = 0
+  pos = 0
   for(i in seq(1,nrow(df))){
     if(flag == 1){
       if(lagnum > 0){
@@ -159,10 +170,28 @@ lagfun <- function(df,thresh){
         flag = 1
       }
     }
+    if(i > 1){
+      if(mean < abs(df$Val[i] - df$Val[i-1])){
+        mean = abs(df$Val[i] - df$Val[i-1])
+        pos = i
+        flag = 1
+      }
+    }
   }
+
   if(final == 0){
-    return(final)
+    return(0)
   } else {
-    return(final)
+    if(pos < final){
+      if(k == 1)
+        return(pos)
+      else
+        return(pos - 1)
+    } else {
+      if(k == 1)
+        return(final)
+      else
+        return(final - 1)
+    }
   }
 }
